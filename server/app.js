@@ -5,7 +5,7 @@ var http = require('http');
 var processRequest = require('./server');
 
 // 创建服务
-
+console.log(processRequest);
 var httpServer = http.createServer((req, res) => {
   processRequest(req, res);  
 });
