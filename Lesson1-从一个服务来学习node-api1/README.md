@@ -54,4 +54,4 @@ node中服务器需要通过用户访问的文件名及后缀来访问文件。�
 
 > 假如我打开了localhost:3000/index.html, 则服务通过文件后缀为html ，则匹配MIME类型为text/html 
 
-![text/html]()
+![text/html](https://raw.githubusercontent.com/lemontree2000/learning-node/master/Lesson1-%E4%BB%8E%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E6%9D%A5%E5%AD%A6%E4%B9%A0node-api1/text%26html.png)
