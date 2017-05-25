@@ -55,3 +55,11 @@ node中服务器需要通过用户访问的文件名及后缀来访问文件。�
 > 假如我打开了localhost:3000/index.html, 则服务通过文件后缀为html ，则匹配MIME类型为text/html 
 
 ![text/html](https://raw.githubusercontent.com/lemontree2000/learning-node/master/Lesson1-%E4%BB%8E%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E6%9D%A5%E5%AD%A6%E4%B9%A0node-api1/text%26html.png)
+
+以此类推，用户访问什么样的文件， 我们就通过文件后缀来判断MIME类型。MIME.js模块是将一些常见的MIME类型通过一家JSON存储起来， key为后缀名value为MIME类型， 这样我们就可以直接用后缀名来获取相应的MIME类型了。 
+
+```javascript
+mime['gif'] = "image/gif"
+```
+
+今天内容水了一点， 但是也学到了东西。 下次就是server.js. 
