@@ -11,7 +11,7 @@ module.exports = function processRequest(request, response) {
   var requestUrl = request.url;
   // url模块的parse方法 接收一个字符串，返回一个url对象，切出路径
   var pathName = url.parse(requestUrl).pathname;
-
+  console.log(url.parse(requestUrl));
   pathName = decodeURI(pathName);
   // 解决301重定向问题，如果pathname没以/结尾，并且没有扩展名
   if (!pathName.endsWith('/') && path.extname(pathName) === '') {
@@ -61,16 +61,12 @@ module.exports = function processRequest(request, response) {
     if (!err && stats.isDirectory()) {
       var html = "<head><met charset='utf-8'/></head>";
       //读取该路径下文件
+
+      fs.read
       fs.readdir(filePath, (err, files) => {
         if (err) {
           console.log("读取路径失败");
         } else {
-          console.log(files);
-
-        // files.foreach(function (file) {
-        // //做成一个链接表，方便用户访问
-        // html+=`<div><a href="${file}">${file}</a></div>`;
-        //  });
 
           for (var file of files) {
             if (file === "index.html") {
@@ -80,13 +76,12 @@ module.exports = function processRequest(request, response) {
               response.end(file);
               break;
             }
-            // html += `<div><a href='${file}'>${file}</a></div>`;
-            // console.log(html);
+            html += `<div><a href='${file}'>${file}</a></div>`;
           }
-          // response.writeHead(200, {
-          //   "content-type": "text/html"
-          // });
-          // response.end(html);
+          response.writeHead(200, {
+            "content-type": "text/html"
+          });
+          response.end(html);
         }
       });
     } 

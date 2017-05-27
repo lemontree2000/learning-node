@@ -7,7 +7,6 @@ var processRequest = require('./server');
 // 创建服务
 console.log(processRequest);
 var httpServer = http.createServer((req, res) => {
-  console.log(req, res);
   processRequest(req, res);  
   // 调用server模块的processRequest方法
 });
