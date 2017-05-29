@@ -7,11 +7,11 @@ var path = require('path');
 var mime = require('./mime');
 
 module.exports = function processRequest(request, response) {
+  console.log(request);
   // request里面切出标识符字符串
   var requestUrl = request.url;
   // url模块的parse方法 接收一个字符串，返回一个url对象，切出路径
   var pathName = url.parse(requestUrl).pathname;
-  console.log(url.parse(requestUrl));
   pathName = decodeURI(pathName);
   // 解决301重定向问题，如果pathname没以/结尾，并且没有扩展名
   if (!pathName.endsWith('/') && path.extname(pathName) === '') {
@@ -62,7 +62,6 @@ module.exports = function processRequest(request, response) {
       var html = "<head><met charset='utf-8'/></head>";
       //读取该路径下文件
 
-      fs.read
       fs.readdir(filePath, (err, files) => {
         if (err) {
           console.log("读取路径失败");

@@ -40,7 +40,6 @@ module.exports = function processRequest(request, response) {
   var requestUrl = request.url;
   // url模块的parse方法 接收一个字符串，返回一个url对象，切出路径
   var pathName = url.parse(requestUrl).pathname;
-  console.log(url.parse(requestUrl));
   pathName = decodeURI(pathName);
   // 解决301重定向问题，如果pathname没以/结尾，并且没有扩展名
   if (!pathName.endsWith('/') && path.extname(pathName) === '') {
@@ -86,7 +85,6 @@ module.exports = function processRequest(request, response) {
     if (!err && stats.isDirectory()) {
       var html = "<head><met charset='utf-8'/></head>";
       //读取该路径下文件
-      fs.read
       fs.readdir(filePath, (err, files) => {
         if (err) {
           console.log("读取路径失败");
@@ -114,7 +112,7 @@ module.exports = function processRequest(request, response) {
 
 ### url模块
 
-> url是一个专门处理和解析url的模块，它提供了三个方法pase()、format() 、resolve()
+> url是一个专门处理和解析url的模块，它提供了三个方法pase()、format() 、resolve(),用到什么讲什么，我们只讲parse()方法。
 
 parse 将字符串的url解析成一个url对象， parse(string). 对象下面有相应的属性。
 
@@ -136,3 +134,74 @@ parse 将字符串的url解析成一个url对象， parse(string). 对象下面�
     href: 'http://user:pass@host.com:8080/p/a/t/h?query=string#hash'
   }
 ```
+可以看到server.js中我们将request中的url进行了parse(),获取到了对象下面的pathname , 用了es6 字符串方法endsWith 判断字符最后是否是'/'
+
+
+### fs 模块
+
+> fs 是node的文件系统,主要用来对文件的读写。
+
+fs.stat 是用来获取文件的状态信息，传入参数，返回一个stats实例,记录文件信息，err错误既是文件没有存在，我们返回了404. 
+
+* stats.isFile() 如果是文件返回 true，否则返回 false。
+* stats.isDirectory() 如果是目录返回 true，否则返回 false。
+
+```javascript
+Stats {
+  dev: 2114,
+  ino: 48064969,
+  mode: 33188,
+  nlink: 1,
+  uid: 85,
+  gid: 100,
+  rdev: 0,
+  size: 527,
+  blksize: 4096,
+  blocks: 8,
+  atime: Mon, 10 Oct 2011 23:24:11 GMT,
+  mtime: Mon, 10 Oct 2011 23:24:11 GMT,
+  ctime: Mon, 10 Oct 2011 23:24:11 GMT,
+  birthtime: Mon, 10 Oct 2011 23:24:11 GMT 
+}
+```
+fs.createReadStream 新建一个 ReadStream(可读流) 对象.
+* stream.on 监听了error时间
+* stream.pipe 将可读流文件写入response里面
+
+fs.readdir 读取目录的方法
+> fs.readdir(path, callback)
+
+* path - 文件路径。
+* callback - 回调函数，回调函数带有两个参数err, files，err 为错误信息，files 为 目录下的文件数组列表。
+
+
+
+
+### path模块
+
+> 模块提供了一些工具函数，用于处理文件与目录的路径。
+
+* path.extname() 方法返回 path 的扩展名，即从 path 的最后一部分中的最后一个 .（句号）字符到字符串结束。如果没有. 则返回一个空字符串。
+* path.relative() 方法返回从 from 到 to 的相对路径。 如果 from 和 to 各自解析到同一路径（调用 path.resolve()），则返回一个长度为零的字符串。
+
+```javascript
+path.extname('index.html')
+// 返回: '.html'
+path.extname('index.coffee.md')
+// 返回: '.md'
+path.relative('C:\\orandea\\test\\aaa', 'C:\\orandea\\impl\\bbb')
+// 返回: '..\\..\\impl\\bbb'
+```
+## response & request
+
+> response和 request 分别是服务端响应对象客户端请求对象， 在创建http时生成。 
+
+* response.writeHead 向请求的客户端发送响应头。
+* response.end 结束响应，告诉客户端所有消息已经发送。当所有要返回的内容发送完毕时，该函数必须被调用一次。如何不调用该函数，客户端将永远处于等待状态。
+
+## 结语
+
+这样整个服务器的内容也将完了。 因为经历原因可以一些api讲的不够详细， 以后会补上的。 后面两个星期可能没时间写了，所有会空一点。 等完成现在的计划就可以全面学习Node.js了。 
+
+
+
